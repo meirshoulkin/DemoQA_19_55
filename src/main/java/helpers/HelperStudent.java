@@ -21,13 +21,33 @@ public interface HelperStudent extends HelperBase{
         type(By.id("userEmail"), studentDTO.getEmail());
         selectGender(studentDTO.getGender());
         type(By.id("userNumber"), studentDTO.getPhone());
-        type(By.id("dateOfBirthInput"), studentDTO.getBirthday());
+        dateOfBirthDays(studentDTO.getBirthday());
+  //      type(By.id("dateOfBirthInput"), studentDTO.getBirthday());
         addSubjects(studentDTO.getSubjects());
         selectHobby(studentDTO.getHobbies());
         type(By.id("currentAddress"), studentDTO.getAddress());
         selectState(studentDTO.getState());
         selectCity(studentDTO.getCity());
     }
+
+    default void dateOfBirthDays(String birthday){
+        String[] birthdays = birthday.split(" ");
+        int x = 2023 - Integer.parseInt(birthdays[2]);
+        int y = Integer.parseInt(birthdays[1]);
+        int i = x * 11 + y;
+        click(By.xpath("//input[@id='dateOfBirthInput']"));
+        while(i != 0){
+        click(By.xpath("//button[normalize-space()='Previous Month']"));
+        }
+        String value = birthdays[0] ;
+        StringBuilder builder = new StringBuilder();
+        builder.append(value);
+        String locator = builder.toString();
+        click(By.xpath(locator));
+       // click(By.xpath("//select[@class='react-datepicker__month-select']"));
+////div[@aria-label='Choose Monday, July 17th, 2023']
+
+    };
 
     default void selectGender(String gender){
         if(gender.equals("Male")){
